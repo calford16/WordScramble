@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WordScramble</string>
+    <string name="action_settings">Settings</string>
+    <string name="string_title">Scramblemania</string>
+</resources>
