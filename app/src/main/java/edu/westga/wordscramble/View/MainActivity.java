@@ -1,4 +1,4 @@
-package edu.westga.wordscramble.Controller;
+package edu.westga.wordscramble.View;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,15 +9,18 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import edu.westga.wordscramble.Controller.WordController;
 import edu.westga.wordscramble.R;
 
 public class MainActivity extends AppCompatActivity {
+
+    private WordController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.controller = new WordController();
     }
 
     @Override
