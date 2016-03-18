@@ -15,6 +15,11 @@ public class Scrambler {
         this.word = aWord;
     }
 
+    // No parameter constructor automatically selects a word
+    public Scrambler() {
+        this(new Wordbank().getWord());
+    }
+
     public String scrambleWord() {
         List<Character> list = new ArrayList<>();
         for(char c :  this.word.toCharArray()) {
