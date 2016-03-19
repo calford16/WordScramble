@@ -10,19 +10,28 @@ import java.util.List;
 public class Scrambler {
 
     private String word = "";
+    private String scrambled = "";
 
-    public Scrambler(String aWord) {
-        this.word = aWord;
-    }
-
-    // No parameter constructor automatically selects a word
+    /**
+     * Create a new Scrambler instance.  It will provide a random word and a
+     * scrambled version of it
+     */
     public Scrambler() {
-        this(new Wordbank().getWord());
+
+        this.word = new Wordbank().getWord();
+        this.scrambled = scrambleWord(this.word);
     }
 
-    public String scrambleWord() {
+    String getWord() {
+        return this.word;
+    }
+    String getScrambled() {
+        return this.scrambled;
+    }
+
+    private String scrambleWord(String word) {
         List<Character> list = new ArrayList<>();
-        for(char c :  this.word.toCharArray()) {
+        for(char c :  word.toCharArray()) {
             list.add(c);
         }
         Collections.shuffle(list);
