@@ -22,10 +22,10 @@ public class Scrambler {
         this.scrambled = scrambleWord(this.word);
     }
 
-    String getWord() {
+    public String getWord() {
         return this.word;
     }
-    String getScrambled() {
+    public String getScrambled() {
         return this.scrambled;
     }
 
