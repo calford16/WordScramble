@@ -1,0 +1,22 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="40dp"
+    android:layout_height="80dp"
+    tools:context="edu.westga.wordscramble.View.LetterFragment"
+    android:background="@drawable/gradient_background"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/fragmentLetterTextView"
+        android:textColor="#fffba8"
+        android:shadowColor="#000000"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        android:maxLength="1"
+        android:layout_gravity="center" />
+</FrameLayout>
