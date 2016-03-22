@@ -10,6 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.westga.wordscramble.Controller.WordController;
 import edu.westga.wordscramble.R;
@@ -17,48 +23,98 @@ import edu.westga.wordscramble.R;
 public class MainActivity extends AppCompatActivity {
 
     private static final String KEY = "KEY";
+    private List<WeakReference<Fragment>> fragList;
     private WordController controller;
+    private int hintThreshold;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         this.controller = new WordController();
+        this.fragList = new ArrayList<WeakReference<Fragment>>();
+        this.createLetterFragments(this.controller.getScrambled());
+        this.hintThreshold = 0;
+    }
 
-        FragmentManager fm = this.getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+    public void newWordButtonAction(View view) {
+        this.controller.newGame();
+        this.clearLetterFragments();
+        this.fragList = new ArrayList<WeakReference<Fragment>>();
+        this.createLetterFragments(this.controller.getScrambled());
 
-        LetterFragment frag = newLetterFragment("M");
-        ft.add(R.id.fragment_container, frag);
+        TextView answerTextView = (TextView) findViewById(R.id.answer_field);
+        answerTextView.setText("");
 
-        LetterFragment frag2 = newLetterFragment("L");
-        ft.add(R.id.fragment_container, frag2);
+        this.hintThreshold = 0;
+    }
 
-        LetterFragment frag3 = newLetterFragment("I");
-        ft.add(R.id.fragment_container, frag3);
+    public void submitAnswerButtonAction(View view) {
+        TextView answerTextView = (TextView) findViewById(R.id.answer_field);
+        if (this.controller.checkAnswer(answerTextView.getText().toString())) {
+            Toast.makeText(MainActivity.this, "Answer correct! Play again!", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(MainActivity.this, "Wrong! Try again.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        LetterFragment frag4 = newLetterFragment("K");
-        ft.add(R.id.fragment_container, frag4);
-
-        LetterFragment frag5 = newLetterFragment("J");
-        ft.add(R.id.fragment_container, frag5);
-
-        LetterFragment frag6 = newLetterFragment("L");
-        ft.add(R.id.fragment_container, frag6);
-
-        ft.commit();
+    public void hintButtonAction(View view) {
+        String hint = this.controller.getHint(++this.hintThreshold);
+        Toast.makeText(MainActivity.this, hint, Toast.LENGTH_SHORT).show();
     }
 
     /**
-     * Create a new instance of LetterFragment, initialized to
-     * show the text at 'index'.
+     * Create a new instance of LetterFragment
      */
-    private static LetterFragment newLetterFragment(String letter) {
+    private LetterFragment newLetterFragment(String letter) {
         LetterFragment f = new LetterFragment();
-        // Supply index input as an argument.
         Bundle args = new Bundle();
         args.putString(KEY, letter);
         f.setArguments(args);
         return f;
+    }
+
+    private void clearLetterFragments() {
+        List<Fragment> all = this.getActiveFragments();
+        if (all == null) {
+            // code that handles no existing fragments
+        } else {
+            for (Fragment frag : all)
+            {
+                getFragmentManager().beginTransaction().remove(frag).commit();
+            }
+        }
+    }
+
+    private void createLetterFragments(String word) {
+        FragmentManager fm = this.getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        for (char c : word.toCharArray()) {
+            LetterFragment frag = newLetterFragment(String.valueOf(c));
+            ft.add(R.id.fragment_container, frag);
+        }
+
+        ft.commit();
+    }
+
+    @Override
+    public void onAttachFragment (Fragment fragment) {
+        fragList.add(new WeakReference(fragment));
+    }
+
+    public List<Fragment> getActiveFragments() {
+        ArrayList<Fragment> ret = new ArrayList<Fragment>();
+        for(WeakReference<Fragment> ref : fragList) {
+            Fragment f = ref.get();
+            if(f != null) {
+                if(f.isVisible()) {
+                    ret.add(f);
+                }
+            }
+        }
+        return ret;
     }
 }

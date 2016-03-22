@@ -42,6 +42,7 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/answer_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/string_answer_prompt"
@@ -66,7 +67,8 @@
             android:text="New Word?"
             android:textAllCaps="false"
             android:backgroundTint="#FFBF80"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:onClick="newWordButtonAction"/>
 
         <Button
             android:layout_width="150dp"
@@ -74,7 +76,8 @@
             android:text="Submit Answer"
             android:textAllCaps="false"
             android:backgroundTint="#FFBF80"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:onClick="submitAnswerButtonAction"/>
 
     </LinearLayout>
 
@@ -87,6 +90,7 @@
         android:layout_gravity="center"
         android:background="#FFBF80"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:onClick="hintButtonAction"/>
 
 </LinearLayout>

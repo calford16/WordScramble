@@ -9,22 +9,31 @@ public class WordController {
         this.scrambler = new Scrambler();
     }
 
-    void newGame() {
+    public void newGame() {
+        this.scrambler = new Scrambler();
     }
 
-    String getWord() {
-        return null;
+    public String getWord() {
+        return this.scrambler.getWord();
     }
 
-    String getScrambled() {
-        return null;
+    public String getScrambled() {
+        return this.scrambler.getScrambled();
     }
 
-    boolean checkAnswer(String answer) {
-        return false;
+    public boolean checkAnswer(String answer) {
+        return this.getWord().equals(answer);
     }
 
-    String getHint() {
-        return null;
+    public String getHint(int threshold) {
+        String theHint = "";
+        for (int i = 0; i < this.getWord().length(); i++) {
+            if (i < threshold) {
+                theHint += this.getWord().charAt(i);
+            } else {
+                theHint += "*";
+            }
+        }
+        return theHint;
     }
 }
