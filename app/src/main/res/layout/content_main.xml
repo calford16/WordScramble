@@ -26,7 +26,8 @@
         android:shadowColor="#000000"
         android:shadowDx="-5"
         android:shadowDy="5"
-        android:shadowRadius="2"/>
+        android:shadowRadius="2"
+        android:id="@+id/titleTextView" />
 
     <LinearLayout
         android:layout_width="match_parent"
