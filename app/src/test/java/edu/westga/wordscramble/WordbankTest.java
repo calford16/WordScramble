@@ -11,26 +11,42 @@ import static org.junit.Assert.*;
  */
 public class WordbankTest {
     @Test
-    public void testGetWordDoesNotReturnNull() throws Exception {
+    public void testGetFiveWordDoesNotReturnNull() throws Exception {
         Wordbank bank = new Wordbank();
         for (int count = 0; count < 1000; count++) {
-            assertNotNull(bank.getWord());
+            assertNotNull(bank.getWord(true));
         }
     }
 
     @Test
-    public void testGetWordDoesNotReturnEmptyString() throws Exception {
+    public void testGetSixWordDoesNotReturnNull() throws Exception {
         Wordbank bank = new Wordbank();
         for (int count = 0; count < 1000; count++) {
-            assertFalse(bank.getWord().equals(""));
+            assertNotNull(bank.getWord(false));
         }
     }
 
     @Test
-    public void testGetWordSometimesReturnsTheFirstWord() throws Exception {
+    public void testGetFiveWordDoesNotReturnEmptyString() throws Exception {
         Wordbank bank = new Wordbank();
         for (int count = 0; count < 1000; count++) {
-            if (bank.getWord().equals("avoid")) {
+            assertFalse(bank.getWord(true).equals(""));
+        }
+    }
+
+    @Test
+    public void testGetSixWordDoesNotReturnEmptyString() throws Exception {
+        Wordbank bank = new Wordbank();
+        for (int count = 0; count < 1000; count++) {
+            assertFalse(bank.getWord(false).equals(""));
+        }
+    }
+
+    @Test
+    public void testGetFiveWordSometimesReturnsTheFirstWord() throws Exception {
+        Wordbank bank = new Wordbank();
+        for (int count = 0; count < 1000; count++) {
+            if (bank.getWord(true).equals("avoid")) {
                 return;
             };
         }
@@ -41,7 +57,7 @@ public class WordbankTest {
     public void testGetWordSometimesReturnsAMiddleWord() throws Exception {
         Wordbank bank = new Wordbank();
         for (int count = 0; count < 1000; count++) {
-            if (bank.getWord().equals("hyena")) {
+            if (bank.getWord(true).equals("hyena")) {
                 return;
             };
         }
@@ -52,7 +68,7 @@ public class WordbankTest {
     public void testGetWordSometimesReturnsTheLastWord() throws Exception {
         Wordbank bank = new Wordbank();
         for (int count = 0; count < 1000; count++) {
-            if (bank.getWord().equals("rueful")) {
+            if (bank.getWord(false).equals("rueful")) {
                 return;
             };
         }
@@ -61,11 +77,11 @@ public class WordbankTest {
 
 
     @Test
-    public void testGetWordDoesNotReturnTheSameWordAllThetime() throws Exception {
+    public void testGetWordDoesNotReturnTheSameWordAllTheTime() throws Exception {
         Wordbank bank = new Wordbank();
-        String firstWord = bank.getWord();
+        String firstWord = bank.getWord(true);
         for (int count = 0; count < 1000; count++) {
-            if (!bank.getWord().equals(firstWord)) {
+            if (!bank.getWord(true).equals(firstWord)) {
                 return;
             };
         }
