@@ -36,8 +36,22 @@ public class Wordbank {
         return this.dictionary.get(index);
     }
 
-    public String getWord(){
-        Random generator = new Random();
-        return this.dictionary.get(generator.nextInt(this.dictionary.size()));
+    public String getWord(boolean fiveLetter){
+        boolean correctLetterCount = false;
+        String word = "";
+        Random generator;
+        do {
+            generator = new Random();
+            word = this.dictionary.get(generator.nextInt(this.dictionary.size()));
+
+            if (fiveLetter && word.length() == 5) {
+                correctLetterCount = true;
+            }
+
+            if (!fiveLetter && word.length() == 6) {
+                correctLetterCount = true;
+            }
+        } while (correctLetterCount);
+        return word;
     }
 }

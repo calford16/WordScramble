@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void newWordButtonAction(View view) {
-        this.controller.newGame();
+        RadioButton fiveLetterRadioButton = (RadioButton) findViewById(R.id.fiveLetterRadioButton);
+        if (fiveLetterRadioButton.isChecked()) {
+            this.controller.newFiveLetterGame();
+        } else {
+            this.controller.newSixLetterGame();
+        }
+
         this.clearLetterFragments();
         this.fragList = new ArrayList<WeakReference<Fragment>>();
         this.createLetterFragments(this.controller.getScrambled());

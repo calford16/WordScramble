@@ -6,11 +6,15 @@ public class WordController {
     private Scrambler scrambler;
 
     public WordController() {
-        this.scrambler = new Scrambler();
+        this.scrambler = new Scrambler(true);
     }
 
-    public void newGame() {
-        this.scrambler = new Scrambler();
+    public void newFiveLetterGame() {
+        this.scrambler = new Scrambler(true);
+    }
+
+    public void newSixLetterGame() {
+        this.scrambler = new Scrambler(false);
     }
 
     public String getWord() {

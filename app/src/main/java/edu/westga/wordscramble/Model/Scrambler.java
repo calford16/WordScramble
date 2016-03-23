@@ -16,9 +16,8 @@ public class Scrambler {
      * Create a new Scrambler instance.  It will provide a random word and a
      * scrambled version of it
      */
-    public Scrambler() {
-
-        this.word = new Wordbank().getWord();
+    public Scrambler(boolean fiveLetter) {
+        this.word = new Wordbank().getWord(fiveLetter);
         this.scrambled = scrambleWord(this.word);
     }
 
