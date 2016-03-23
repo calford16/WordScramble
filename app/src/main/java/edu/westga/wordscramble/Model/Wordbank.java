@@ -37,19 +37,18 @@ public class Wordbank {
     }
 
     public String getWord(boolean fiveLetter){
-        boolean correctLetterCount = false;
+        boolean correctLetterCount = true;
         String word = "";
-        Random generator;
+        Random generator = new Random();
         do {
-            generator = new Random();
             word = this.dictionary.get(generator.nextInt(this.dictionary.size()));
 
             if (fiveLetter && word.length() == 5) {
-                correctLetterCount = true;
+                correctLetterCount = false;
             }
 
             if (!fiveLetter && word.length() == 6) {
-                correctLetterCount = true;
+                correctLetterCount = false;
             }
         } while (correctLetterCount);
         return word;
