@@ -29,11 +29,11 @@ public class WordController {
     }
 
     public void newFiveLetterGame() {
-        this.scrambler = new Scrambler(true);
+        this.scrambler.newWord(true);
     }
 
     public void newSixLetterGame() {
-        this.scrambler = new Scrambler(false);
+        this.scrambler.newWord(false);
     }
 
     public String getWord() {

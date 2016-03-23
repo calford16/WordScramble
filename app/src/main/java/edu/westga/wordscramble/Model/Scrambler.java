@@ -13,6 +13,7 @@ public class Scrambler {
 
     private String word = "";
     private String scrambled = "";
+    private Wordbank bank;
 
     /**
      * Create a new Scrambler instance using hard coded words.  It will provide a random word and a
@@ -20,7 +21,8 @@ public class Scrambler {
      * @param fiveLetter True for 5 letter words. False for 6 letter words
      */
     public Scrambler(boolean fiveLetter) {
-        this.word = new Wordbank().getWord(fiveLetter);
+        this.bank = new Wordbank();
+        this.word = bank.getWord(fiveLetter);
         this.scrambled = scrambleWord(this.word);
     }
 
@@ -35,7 +37,8 @@ public class Scrambler {
         if (inputStream == null) {
             throw new IllegalArgumentException("inputStream cannot be null");
         }
-        this.word = new Wordbank(inputStream).getWord(fiveLetter);
+        this.bank = new Wordbank(inputStream);
+        this.word = bank.getWord(fiveLetter);
         this.scrambled = scrambleWord(this.word);
     }
 
@@ -60,6 +63,11 @@ public class Scrambler {
         }
 
         return sb.toString();
+    }
+
+    public void newWord(boolean fiveLetter) {
+        this.word = this.bank.getWord(fiveLetter);
+        this.scrambled = scrambleWord(this.word);
     }
 
     public boolean compareWord(String otherWord) {
