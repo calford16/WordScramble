@@ -1,12 +1,31 @@
 package edu.westga.wordscramble.Controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import edu.westga.wordscramble.Model.Scrambler;
 
 public class WordController {
     private Scrambler scrambler;
 
+    /**
+     * Create a WordController that will use hard-coded words
+     */
     public WordController() {
         this.scrambler = new Scrambler(true);
+    }
+
+    /**
+     * Create a WordController that will get its words from given input stream
+     * Precondition: inputStream != null
+     * @param inputStream stream to use to get words from
+     * @throws IOException if unable to read from the inputStream
+     */
+    public WordController(InputStream inputStream)  throws IOException {
+        if (inputStream == null) {
+            throw new IllegalArgumentException("inputStream cannot be null");
+        }
+        this.scrambler = new Scrambler(true, inputStream);
     }
 
     public void newFiveLetterGame() {

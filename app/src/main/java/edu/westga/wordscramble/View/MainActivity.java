@@ -4,6 +4,7 @@ package edu.westga.wordscramble.View;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private List<WeakReference<Fragment>> fragList;
     private WordController controller;
     private int hintThreshold;
+    public final static String WORD_LIST_FILE = "words.txt";
 
 
     @Override
@@ -34,7 +38,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.controller = new WordController();
+        AssetManager assetManager = getAssets();
+        try {
+            InputStream input = assetManager.open(WORD_LIST_FILE);
+            this.controller = new WordController(input);
+        } catch (IOException ex) {
+            // Fallback on using hard-coded words
+            this.controller = new WordController();
+        }
+
         this.fragList = new ArrayList<WeakReference<Fragment>>();
         this.createLetterFragments(this.controller.getScrambled());
         this.hintThreshold = 0;

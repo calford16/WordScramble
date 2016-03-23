@@ -1,5 +1,9 @@
 package edu.westga.wordscramble.Model;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,6 +34,22 @@ public class Wordbank {
         this.dictionary.add("oolong");
         this.dictionary.add("phylum");
         this.dictionary.add("rueful");
+    }
+
+    /**
+     * Create a new WordBank instance using words from given input stream
+     * Precondition: inputStream != null
+     * @param inputStream stream to read words from
+     * @throws IOException if unable to read from the inputStream
+     */
+    public Wordbank(InputStream inputStream) throws IOException {
+        this.dictionary = new ArrayList<String>();
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line=reader.readLine()) != null) {
+                this.dictionary.add(line);
+            }
     }
 
     public String getWord(int index) {
