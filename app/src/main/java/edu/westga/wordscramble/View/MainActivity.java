@@ -139,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
         return ret;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        this.clearLetterFragments();
+        super.onSaveInstanceState(savedInstanceState);
+    }
 
     /**
      * Class to run the network operation on a separate thread.
