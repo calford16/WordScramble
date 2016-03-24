@@ -1,6 +1,7 @@
 package edu.westga.wordscramble.View;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,8 +10,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -166,6 +165,17 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException ex) {
                 // Fallback on using hard-coded words
                 MainActivity.this.controller = new WordController();
+                // Show error message. Must create a runnable and run on main UI thread
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        // User AlertDialog.Builder to show the message
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Failed to load word list")
+                                .setMessage("Could not load words from URL. Hard coded word list will be used instead.")
+                                .setPositiveButton(android.R.string.ok, null)
+                                .show();
+                    }
+                });
             }
             MainActivity.this.createLetterFragments(MainActivity.this.controller.getScrambled());
             return null;
