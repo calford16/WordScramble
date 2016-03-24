@@ -120,14 +120,10 @@ public class MainActivity extends AppCompatActivity {
         for (char c : word.toCharArray()) {
             LetterFragment frag = newLetterFragment(String.valueOf(c));
             ft.add(R.id.fragment_container, frag);
+            fragList.add(new WeakReference(frag));
         }
 
         ft.commit();
-    }
-
-    @Override
-    public void onAttachFragment (Fragment fragment) {
-        fragList.add(new WeakReference(fragment));
     }
 
     public List<Fragment> getActiveFragments() {
