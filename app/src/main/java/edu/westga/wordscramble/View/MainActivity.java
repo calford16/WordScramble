@@ -14,10 +14,14 @@ import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.AsyncTask;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private WordController controller;
     private int hintThreshold;
     public final static String WORD_LIST_FILE = "words.txt";
+    public final static String WORDLIST_URL = "https://raw.githubusercontent.com/first20hours/google-10000-english/master/20k.txt";
 
 
     @Override
@@ -38,17 +43,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AssetManager assetManager = getAssets();
-        try {
-            InputStream input = assetManager.open(WORD_LIST_FILE);
-            this.controller = new WordController(input);
-        } catch (IOException ex) {
-            // Fallback on using hard-coded words
-            this.controller = new WordController();
-        }
+//        AssetManager assetManager = getAssets();
+//        try {
+//            InputStream input = assetManager.open(WORD_LIST_FILE);
+//            this.controller = new WordController(input);
+//        } catch (IOException ex) {
+//            // Fallback on using hard-coded words
+//            Toast.makeText(MainActivity.this, "Failed to open wordfile. Falling back on hardcoded list", Toast.LENGTH_SHORT).show();
+//            this.controller = new WordController();
+//        }
+//        this.createLetterFragments(this.controller.getScrambled());
 
+        new GetWordsFromURL().execute(WORDLIST_URL);
         this.fragList = new ArrayList<WeakReference<Fragment>>();
-        this.createLetterFragments(this.controller.getScrambled());
         this.hintThreshold = 0;
     }
 
@@ -136,4 +143,33 @@ public class MainActivity extends AppCompatActivity {
         }
         return ret;
     }
+
+
+    /**
+     * Class to run the network operation on a separate thread.
+     * Android does not allow network activity on the main thread that MainActivity is running on
+     */
+    class GetWordsFromURL extends AsyncTask<String, String, String> {
+
+        /**
+         * Work to do in the background thread
+         * */
+        @Override
+        protected String doInBackground(String... urls) {
+            try {
+                URL url = new URL(urls[0]);
+                URLConnection connection = url.openConnection();
+                connection.connect();
+                InputStream input = new BufferedInputStream(url.openStream(), 8192);
+
+                MainActivity.this.controller = new WordController(input);
+            } catch (IOException ex) {
+                // Fallback on using hard-coded words
+                MainActivity.this.controller = new WordController();
+            }
+            MainActivity.this.createLetterFragments(MainActivity.this.controller.getScrambled());
+            return null;
+        }
+    }
+
 }
