@@ -120,14 +120,10 @@ public class MainActivity extends AppCompatActivity {
         for (char c : word.toCharArray()) {
             LetterFragment frag = newLetterFragment(String.valueOf(c));
             ft.add(R.id.fragment_container, frag);
+            fragList.add(new WeakReference(frag));
         }
 
         ft.commit();
-    }
-
-    @Override
-    public void onAttachFragment (Fragment fragment) {
-        fragList.add(new WeakReference(fragment));
     }
 
     public List<Fragment> getActiveFragments() {
@@ -143,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
         return ret;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        this.clearLetterFragments();
+        super.onSaveInstanceState(savedInstanceState);
+    }
 
     /**
      * Class to run the network operation on a separate thread.
