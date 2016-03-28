@@ -39,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
     static final String STATE_WORD = "word";
     static final String STATE_SCRAMBLED = "scrambled";
     static final String STATE_THRESHOLD = "hintThreshold";
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 //        AssetManager assetManager = getAssets();
 //        try {
 //            InputStream input = assetManager.open(WORD_LIST_FILE);
@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 //            this.controller = new WordController();
 //        }
 //        this.createLetterFragments(this.controller.getScrambled());
-
+        
+        this.progressDialog = new ProgressDialog(this);
         this.fragList = new ArrayList<WeakReference<Fragment>>();
         GetWordsFromURL urlLoader;
 
@@ -156,6 +157,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onPause() {
+        // Need to dismiss this if it exists or it will crash the app
+        if (this.progressDialog != null) {
+            this.progressDialog.dismiss();
+        }
+        super.onPause();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // If screen is rotated as soon as MainActivity is started this will be called
         // when controller is still null
@@ -229,17 +239,16 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
-        ProgressDialog Asycdialog = new ProgressDialog(MainActivity.this);
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Asycdialog.setMessage("Loading Words...");
-            Asycdialog.show();
+            MainActivity.this.progressDialog.setMessage("Loading Words...");
+            MainActivity.this.progressDialog.show();
         }
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Asycdialog.dismiss();
+            MainActivity.this.progressDialog.dismiss();
         }
 
     }
