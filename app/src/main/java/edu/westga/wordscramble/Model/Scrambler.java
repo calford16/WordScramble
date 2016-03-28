@@ -73,4 +73,12 @@ public class Scrambler {
     public boolean compareWord(String otherWord) {
         return this.word.equals(otherWord);
     }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setScrambled(String scrambledWord) {
+        this.scrambled = scrambledWord;
+    }
 }

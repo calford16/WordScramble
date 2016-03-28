@@ -59,4 +59,12 @@ public class WordController {
         }
         return theHint;
     }
+
+    public void setWord(String word) {
+        this.scrambler.setWord(word);
+    }
+
+    public void setScrambled(String scrambledWord) {
+        this.scrambler.setScrambled(scrambledWord);
+    }
 }
