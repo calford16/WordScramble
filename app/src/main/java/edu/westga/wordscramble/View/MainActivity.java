@@ -35,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private int hintThreshold;
     public final static String WORD_LIST_FILE = "words.txt";
     public final static String WORDLIST_URL = "https://raw.githubusercontent.com/first20hours/google-10000-english/master/20k.txt";
-
+    static final String STATE_WORD = "word";
+    static final String STATE_SCRAMBLED = "scrambled";
+    static final String STATE_THRESHOLD = "hintThreshold";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +55,22 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        this.createLetterFragments(this.controller.getScrambled());
 
-        new GetWordsFromURL().execute(WORDLIST_URL);
         this.fragList = new ArrayList<WeakReference<Fragment>>();
-        this.hintThreshold = 0;
+        GetWordsFromURL urlLoader;
+
+        if (savedInstanceState == null) {
+            // Game not in progress
+            urlLoader = new GetWordsFromURL();
+            this.hintThreshold = 0;
+        } else {
+            // A game is in progress. Get the saved state
+            urlLoader = new GetWordsFromURL(
+                    savedInstanceState.getString(STATE_WORD),
+                    savedInstanceState.getString(STATE_SCRAMBLED),
+                    savedInstanceState.getInt(STATE_THRESHOLD)
+            );
+        }
+        urlLoader.execute(WORDLIST_URL);
     }
 
     public void newWordButtonAction(View view) {
@@ -141,7 +156,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        this.clearLetterFragments();
+        // If screen is rotated as soon as MainActivity is started this will be called
+        // when controller is still null
+        if (this.controller != null) {
+            this.clearLetterFragments();
+            savedInstanceState.putString(STATE_WORD, this.controller.getWord());
+            savedInstanceState.putString(STATE_SCRAMBLED, this.controller.getScrambled());
+            savedInstanceState.putInt(STATE_THRESHOLD, this.hintThreshold);
+        }
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -150,6 +172,25 @@ public class MainActivity extends AppCompatActivity {
      * Android does not allow network activity on the main thread that MainActivity is running on
      */
     class GetWordsFromURL extends AsyncTask<String, String, String> {
+        private boolean isGameInProgress;
+        private String word;
+        private String scrambled;
+        private int hintThreshold;
+
+        /**
+         *  This constructor is used when a game is in progress.  The parameters
+         *  are the state of the current game
+         */
+        public GetWordsFromURL(String word, String scrambled, int hintThreshold) {
+            this.isGameInProgress = true;
+            this.word = word;
+            this.scrambled = scrambled;
+            this.hintThreshold = hintThreshold;
+        }
+
+        public GetWordsFromURL() {
+            this.isGameInProgress = false;
+        }
 
         /**
          * Work to do in the background thread
@@ -177,6 +218,11 @@ public class MainActivity extends AppCompatActivity {
                                 .show();
                     }
                 });
+            }
+            if (isGameInProgress) {
+                MainActivity.this.controller.setWord(word);
+                MainActivity.this.controller.setScrambled(scrambled);
+                MainActivity.this.hintThreshold = hintThreshold;
             }
             MainActivity.this.createLetterFragments(MainActivity.this.controller.getScrambled());
             return null;
