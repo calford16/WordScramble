@@ -10,6 +10,7 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 //            this.controller = new WordController();
 //        }
 //        this.createLetterFragments(this.controller.getScrambled());
-        
+
         this.progressDialog = new ProgressDialog(this);
         this.fragList = new ArrayList<WeakReference<Fragment>>();
         GetWordsFromURL urlLoader;
@@ -134,13 +135,21 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = this.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        for (char c : word.toCharArray()) {
-            LetterFragment frag = newLetterFragment(String.valueOf(c));
-            ft.add(R.id.fragment_container, frag);
-            fragList.add(new WeakReference(frag));
-        }
-
+        try {
+            if (word != null) {
+                for (char c : word.toCharArray()) {
+                    LetterFragment frag = newLetterFragment(String.valueOf(c));
+                    ft.add(R.id.fragment_container, frag);
+                    fragList.add(new WeakReference(frag));
+                }
+            }
             ft.commit();
+        } catch (IllegalStateException ex) {
+            // The above code occasionally causes an exception if the activity ends
+            // right away such as if the orientation changes
+            // I don't know enough about concurrency and threads to handle this
+            Log.e("", "IllegalStateException in createLetterFragments() caught");
+        }
     }
 
     public List<Fragment> getActiveFragments() {
