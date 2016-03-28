@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             fragList.add(new WeakReference(frag));
         }
 
-        ft.commit();
+            ft.commit();
     }
 
     public List<Fragment> getActiveFragments() {
@@ -227,6 +228,20 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.createLetterFragments(MainActivity.this.controller.getScrambled());
             return null;
         }
+
+        ProgressDialog Asycdialog = new ProgressDialog(MainActivity.this);
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Asycdialog.setMessage("Loading Words...");
+            Asycdialog.show();
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Asycdialog.dismiss();
+        }
+
     }
 
 }
