@@ -21,4 +21,11 @@
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <supports-screens android:resizeable="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:anyDensity="true" />
+
 </manifest>

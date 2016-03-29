@@ -12,7 +12,8 @@
     tools:context=".View.MainActivity"
     tools:showIn="@layout/activity_main"
     android:orientation="vertical"
-    android:background="#8E583C">
+    android:background="#8E583C"
+    >
 
     <TextView
         android:layout_width="match_parent"
