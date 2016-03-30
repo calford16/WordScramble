@@ -116,6 +116,20 @@ public class ScramblerTest {
         assertNotEquals(word, scrambled);
     }
 
+    @Test
+    public void testSetWordSetsTheWord() {
+        Scrambler scrambler = new Scrambler(false);
+        scrambler.setWord("apple");
+        assertEquals("apple", scrambler.getWord());
+    }
+
+    @Test
+    public void testScrambledWordSetsTheScrambledWord() {
+        Scrambler scrambler = new Scrambler(false);
+        scrambler.setWord("laegw");
+        assertEquals("laegw", scrambler.getWord());
+    }
+
     private String sortString(String theString) {
         char[] stringAsCharArray = theString.toCharArray();
         Arrays.sort(stringAsCharArray);
