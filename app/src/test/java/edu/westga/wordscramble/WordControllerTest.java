@@ -91,84 +91,107 @@ public class WordControllerTest {
     @Test
     public void testSetWordSetsTheWord() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals("apple", controller.getWord());
     }
 
     @Test
-    public void testSetScrambledSetsTheScrambledWord() {
+    public void testSetWordReturnsTrueWhenSuccessful() {
         WordController controller = new WordController();
-        controller.setScrambled("hscfew");
-        assertEquals("hscfew", controller.getScrambled());
+        assertTrue(controller.setWord("apple", "elppa"));
+        assertEquals("apple", controller.getWord());
+    }
+
+    @Test
+    public void testSetWordSetsTheScrambledWord() {
+        WordController controller = new WordController();
+        controller.setWord("apple", "elppa");
+        assertEquals("elppa", controller.getScrambled());
+    }
+
+    @Test
+    public void testSetWordDoesNotChangeAnythingWhenInvalidParameters(){
+        WordController controller = new WordController();
+        controller.setWord("apple", "elppa");
+        controller.setWord("orange", "abc");
+        assertEquals("apple", controller.getWord());
+        assertEquals("elppa", controller.getScrambled());
+    }
+
+    @Test
+    public void testSetWordReturnsFalseWhenWhenInvalidParameters(){
+        WordController controller = new WordController();
+        controller.setWord("apple", "elppa");
+        assertFalse(controller.setWord("orange", "abc"));
     }
 
     @Test
     public void testCheckAnswerWhenCorrectAnswer() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals(true, controller.checkAnswer("apple"));
     }
 
     @Test
     public void testCheckAnswerWhenIncorrectAnswer() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals(false, controller.checkAnswer("orange"));
     }
 
     @Test
     public void testGetHintWithOne() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals("a****", controller.getHint(1));
     }
 
     @Test
     public void testGetHintWithThree() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals("app**", controller.getHint(3));
     }
 
     @Test
     public void testGetHintWithFive() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals("apple", controller.getHint(5));
     }
 
     @Test
     public void testGetHintWhenThresholdLongerThanWord() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals("apple", controller.getHint(10));
     }
 
     @Test
     public void testGetHintWithZero() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals("*****", controller.getHint(0));
     }
 
     @Test
     public void testGetHintWithNegativeNumber() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals("*****", controller.getHint(-1));
     }
 
     @Test
     public void testGetHintWithlargeNegativeNumber() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals("*****", controller.getHint(-9999));
     }
 
     @Test
     public void testCheckAnswerIgnoresCase() {
         WordController controller = new WordController();
-        controller.setWord("apple");
+        controller.setWord("apple", "elppa");
         assertEquals(true, controller.checkAnswer("Apple"));
     }
 

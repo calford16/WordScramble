@@ -117,18 +117,28 @@ public class ScramblerTest {
     }
 
     @Test
-    public void testSetWordSetsTheWord() {
+    public void testSetCurrentWordSetsTheWord() {
         Scrambler scrambler = new Scrambler(false);
-        scrambler.setWord("apple");
+        scrambler.setCurrentWord("apple", "elppa");
         assertEquals("apple", scrambler.getWord());
     }
 
     @Test
-    public void testScrambledWordSetsTheScrambledWord() {
+    public void testSetCurrentWordSetsTheScrambledWord() {
         Scrambler scrambler = new Scrambler(false);
-        scrambler.setWord("laegw");
-        assertEquals("laegw", scrambler.getWord());
+        scrambler.setCurrentWord("apple", "elppa");
+        assertEquals("elppa", scrambler.getScrambled());
     }
+
+    @Test
+    public void testSetCurrentWordThrowsExceptionWhenScrambledIsInvalid() {
+        Scrambler scrambler = new Scrambler(false);
+        try {
+            scrambler.setCurrentWord("apple", "ABC");
+            fail("SetCurrentWord failed to throw IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {}
+    }
+
 
     private String sortString(String theString) {
         char[] stringAsCharArray = theString.toCharArray();

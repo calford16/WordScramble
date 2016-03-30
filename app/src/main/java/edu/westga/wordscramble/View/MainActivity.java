@@ -230,8 +230,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
             if (isGameInProgress) {
-                MainActivity.this.controller.setWord(word);
-                MainActivity.this.controller.setScrambled(scrambled);
+                MainActivity.this.controller.setWord(word, scrambled);
                 MainActivity.this.hintThreshold = hintThreshold;
             }
             MainActivity.this.createLetterFragments(MainActivity.this.controller.getScrambled());

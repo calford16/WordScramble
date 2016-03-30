@@ -3,6 +3,7 @@ package edu.westga.wordscramble.Model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -74,11 +75,21 @@ public class Scrambler {
         return this.word.equals(otherWord);
     }
 
-    public void setWord(String word) {
+    public void setCurrentWord(String word, String scrambledWord) {
+        if (word == null || scrambled == null) {
+            throw new IllegalArgumentException("word and scrambledWord must not be null");
+        }
+        if (!this.sortString(word.toLowerCase()).equals(this.sortString(scrambledWord.toLowerCase()))) {
+            throw new IllegalArgumentException("scrambledWord is not a scrambled version of word");
+        }
+
         this.word = word;
+        this.scrambled = scrambledWord;
     }
 
-    public void setScrambled(String scrambledWord) {
-        this.scrambled = scrambledWord;
+    private String sortString(String theString) {
+        char[] stringAsCharArray = theString.toCharArray();
+        Arrays.sort(stringAsCharArray);
+        return String.valueOf(stringAsCharArray);
     }
 }

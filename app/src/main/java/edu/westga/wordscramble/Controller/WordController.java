@@ -61,11 +61,22 @@ public class WordController {
         return theHint;
     }
 
-    public void setWord(String word) {
-        this.scrambler.setWord(word);
+    /**
+     * Sets the current word and scrambled version of the word
+     * If scrambledWord does not have the same characters as word it does nothing
+     * @param word The new word to use
+     * @param scrambledWord Scrambled version of the word
+     * @return Whether or not it set the new word
+     */
+    public boolean setWord(String word, String scrambledWord) {
+        try {
+            this.scrambler.setCurrentWord(word, scrambledWord);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            // Scrambler.setCurrentWord() throws IllegalArgumentException if scrambledWord
+            // is not valid.  Don't do anything in this case
+            return false;
+        }
     }
 
-    public void setScrambled(String scrambledWord) {
-        this.scrambler.setScrambled(scrambledWord);
-    }
 }
