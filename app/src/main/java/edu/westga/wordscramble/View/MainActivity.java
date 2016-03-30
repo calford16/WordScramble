@@ -46,16 +46,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        AssetManager assetManager = getAssets();
-//        try {
-//            InputStream input = assetManager.open(WORD_LIST_FILE);
-//            this.controller = new WordController(input);
-//        } catch (IOException ex) {
-//            // Fallback on using hard-coded words
-//            Toast.makeText(MainActivity.this, "Failed to open wordfile. Falling back on hardcoded list", Toast.LENGTH_SHORT).show();
-//            this.controller = new WordController();
-//        }
-//        this.createLetterFragments(this.controller.getScrambled());
 
         this.progressDialog = new ProgressDialog(this);
         this.fragList = new ArrayList<WeakReference<Fragment>>();
