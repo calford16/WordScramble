@@ -165,6 +165,14 @@ public class WordControllerTest {
         assertEquals("*****", controller.getHint(-9999));
     }
 
+    @Test
+    public void testCheckAnswerIgnoresCase() {
+        WordController controller = new WordController();
+        controller.setWord("apple");
+        assertEquals(true, controller.checkAnswer("Apple"));
+    }
+
+
     private String sortString(String theString) {
         char[] stringAsCharArray = theString.toCharArray();
         Arrays.sort(stringAsCharArray);

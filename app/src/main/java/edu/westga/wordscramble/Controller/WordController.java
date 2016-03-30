@@ -46,7 +46,7 @@ public class WordController {
     }
 
     public boolean checkAnswer(String answer) {
-        return this.getWord().equals(answer);
+        return this.getWord().toLowerCase().equals(answer.toLowerCase());
     }
 
     public String getHint(int threshold) {
