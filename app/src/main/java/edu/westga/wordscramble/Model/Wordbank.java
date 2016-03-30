@@ -16,26 +16,12 @@ public class Wordbank {
     public static final boolean FIVE_LETTER_WORD = true;
     public static final boolean SIX_LETTER_WORD = false;
 
+    /**
+     * Create a new WordBank instance using the class's hard-coded words
+     */
     public Wordbank() {
         this.dictionary = new ArrayList<String>();
-
-        this.dictionary.add("avoid");
-        this.dictionary.add("bloom");
-        this.dictionary.add("clogs");
-        this.dictionary.add("dogma");
-        this.dictionary.add("evict");
-        this.dictionary.add("froth");
-        this.dictionary.add("gluon");
-        this.dictionary.add("hyena");
-
-        this.dictionary.add("ingots");
-        this.dictionary.add("kobold");
-        this.dictionary.add("lipids");
-        this.dictionary.add("motley");
-        this.dictionary.add("normal");
-        this.dictionary.add("oolong");
-        this.dictionary.add("phylum");
-        this.dictionary.add("rueful");
+        this.addHardCodedWords();
     }
 
     /**
@@ -48,14 +34,22 @@ public class Wordbank {
         this.dictionary = new ArrayList<String>();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
-            while ((line=reader.readLine()) != null) {
-                this.dictionary.add(line);
+        String line;
+        boolean fiveLetterWordFound = false;
+        boolean sixLetterWordFound = false;
+        while ((line=reader.readLine()) != null) {
+            if (!fiveLetterWordFound && line.length() == 5) {
+                fiveLetterWordFound = true;
             }
-    }
-
-    public String getWord(int index) {
-        return this.dictionary.get(index);
+            if (!sixLetterWordFound && line.length() == 6) {
+                sixLetterWordFound = true;
+            }
+            this.dictionary.add(line);
+            // If we don't have both 5 and 6 letter words add hard-coded ones
+        }
+        if (!fiveLetterWordFound && !sixLetterWordFound) {
+            this.addHardCodedWords();
+        }
     }
 
     public String getWord(boolean fiveLetter){
@@ -74,5 +68,25 @@ public class Wordbank {
             }
         } while (correctLetterCount);
         return word;
+    }
+
+    private void addHardCodedWords() {
+        this.dictionary.add("avoid");
+        this.dictionary.add("bloom");
+        this.dictionary.add("clogs");
+        this.dictionary.add("dogma");
+        this.dictionary.add("evict");
+        this.dictionary.add("froth");
+        this.dictionary.add("gluon");
+        this.dictionary.add("hyena");
+
+        this.dictionary.add("ingots");
+        this.dictionary.add("kobold");
+        this.dictionary.add("lipids");
+        this.dictionary.add("motley");
+        this.dictionary.add("normal");
+        this.dictionary.add("oolong");
+        this.dictionary.add("phylum");
+        this.dictionary.add("rueful");
     }
 }
