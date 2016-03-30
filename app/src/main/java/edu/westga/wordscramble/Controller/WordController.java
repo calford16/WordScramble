@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import edu.westga.wordscramble.Model.Scrambler;
+import edu.westga.wordscramble.Model.Wordbank;
 
 public class WordController {
     private Scrambler scrambler;
@@ -12,7 +13,7 @@ public class WordController {
      * Create a WordController that will use hard-coded words
      */
     public WordController() {
-        this.scrambler = new Scrambler(true);
+        this.scrambler = new Scrambler(Wordbank.FIVE_LETTER_WORD);
     }
 
     /**
@@ -29,11 +30,11 @@ public class WordController {
     }
 
     public void newFiveLetterGame() {
-        this.scrambler.newWord(true);
+        this.scrambler.newWord(Wordbank.FIVE_LETTER_WORD);
     }
 
     public void newSixLetterGame() {
-        this.scrambler.newWord(false);
+        this.scrambler.newWord(Wordbank.SIX_LETTER_WORD);
     }
 
     public String getWord() {

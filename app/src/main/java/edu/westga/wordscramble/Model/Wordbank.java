@@ -13,6 +13,8 @@ import java.util.Random;
 public class Wordbank {
 
     private ArrayList<String> dictionary;
+    public static final boolean FIVE_LETTER_WORD = true;
+    public static final boolean SIX_LETTER_WORD = false;
 
     public Wordbank() {
         this.dictionary = new ArrayList<String>();
