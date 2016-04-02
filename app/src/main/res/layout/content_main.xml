@@ -13,6 +13,8 @@
     tools:showIn="@layout/activity_main"
     android:orientation="vertical"
     android:background="#8E583C"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     >
 
     <TextView
