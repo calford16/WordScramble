@@ -111,9 +111,10 @@
         android:background="#FFBF80"
         android:textSize="18sp"
         android:onClick="submitAnswerButtonAction"
-        android:id="@+id/button"
+        android:id="@+id/submitAnswerButton"
         android:layout_below="@+id/answer_field"
-        android:layout_marginLeft="80dp" />
+        android:layout_marginLeft="80dp"
+        android:enabled="false" />
 
     <Button
             android:layout_width="90dp"

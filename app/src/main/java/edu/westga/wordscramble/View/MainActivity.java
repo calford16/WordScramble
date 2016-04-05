@@ -6,12 +6,14 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +66,25 @@ public class MainActivity extends AppCompatActivity {
             );
         }
         urlLoader.execute(WORDLIST_URL);
+
+        EditText answerEditText = (EditText) findViewById(R.id.answer_field);
+        answerEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Button submitAnswer = (Button) findViewById(R.id.submitAnswerButton);
+                EditText answerEditText = (EditText) findViewById(R.id.answer_field);
+                String trimmedAnswer = answerEditText.getText().toString().trim();
+                if (trimmedAnswer.length() < 1) {
+                    submitAnswer.setEnabled(false);
+                } else {
+                    submitAnswer.setEnabled(true);
+                }
+            }
+        });
     }
 
     public void newWordButtonAction(View view) {
@@ -86,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void submitAnswerButtonAction(View view) {
         TextView answerTextView = (TextView) findViewById(R.id.answer_field);
-        if (this.controller.checkAnswer(answerTextView.getText().toString())) {
+        if (this.controller.checkAnswer(answerTextView.getText().toString().trim())) {
             Toast.makeText(MainActivity.this, "Answer correct! Play again!", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(MainActivity.this, "Wrong! Try again.", Toast.LENGTH_SHORT).show();

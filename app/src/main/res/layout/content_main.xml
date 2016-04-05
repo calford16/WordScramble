@@ -75,13 +75,15 @@
             android:onClick="hintButtonAction"/>
 
         <Button
+            android:id="@+id/submitAnswerButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Submit Answer"
             android:textAllCaps="false"
             android:backgroundTint="#FFBF80"
             android:textSize="18sp"
-            android:onClick="submitAnswerButtonAction"/>
+            android:onClick="submitAnswerButtonAction"
+            android:enabled="false" />
 
     </LinearLayout>
 
